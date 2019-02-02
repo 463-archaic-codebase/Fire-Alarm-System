@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FireAlarmSystem")]
+[assembly: AssemblyTitle("FireAlarmSystem.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FireAlarmSystem")]
+[assembly: AssemblyProduct("FireAlarmSystem.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c6a42805-0f38-4a99-802e-ee741227ffb5")]
+[assembly: Guid("c5ace129-04c6-4f41-ab69-889b54ca9769")]
 
 // Version information for an assembly consists of the following four values:
 //
