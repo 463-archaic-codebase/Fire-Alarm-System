@@ -421,17 +421,340 @@
         <div class="col-sm-6">
             <div class="panel">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
                         <h2>Alarm Details</h2>
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        <a href="#settingsConfig" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="settingsConfig">
+                            <img id="settingsCog" src="/Images/Icons/settings.png" />
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse" id="settingsConfig">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h4>Column Name</h4>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <h4>Visible</h4>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>Alignment</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 text-right">
+                            <h4>Alarm Type</h4>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <asp:CheckBox ID="chkAlarmTypeVisible" runat="server" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmTypeAlignLeft" runat="server" GroupName="rdoAlarmTypeAlign" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmTypeAlignCenter" runat="server" GroupName="rdoAlarmTypeAlign" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmTypeAlignRight" runat="server" GroupName="rdoAlarmTypeAlign" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 text-right">
+                            <h4>Last Service</h4>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <asp:CheckBox ID="chkLastServiceVisible" runat="server" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoLastServiceAlignLeft" runat="server" GroupName="rdoLastServiceAlign" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoLastServiceAlignCenter" runat="server" GroupName="rdoLastServiceAlign" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoLastServiceAlignRight" runat="server" GroupName="rdoLastServiceAlign" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 text-right">
+                            <h4>Zone</h4>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <asp:CheckBox ID="chkZoneVisible" runat="server" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoZoneAlignLeft" runat="server" GroupName="rdoZoneAlign" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoZoneAlignCenter" runat="server" GroupName="rdoZoneAlign" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoZoneAlignRight" runat="server" GroupName="rdoZoneAlign" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 text-right">
+                            <h4>Floor</h4>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <asp:CheckBox ID="chkFloorVisible" runat="server" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoFloorAlignLeft" runat="server" GroupName="rdoFloorAlign" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoFloorAlignCenter" runat="server" GroupName="rdoFloorAlign" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoFloorAlignRight" runat="server" GroupName="rdoFloorAlign" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 text-right">
+                            <h4>Room</h4>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <asp:CheckBox ID="chkRoomVisible" runat="server" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoRoomAlignLeft" runat="server" GroupName="rdoRoomAlign" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoRoomAlignCenter" runat="server" GroupName="rdoRoomAlign" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoRoomAlignRight" runat="server" GroupName="rdoRoomAlign" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 text-right">
+                            <h4>Alarm Status</h4>
+                        </div>
+                        <div class="col-sm-2 text-center" for="chkAlarmStatusVisible">
+                            <asp:CheckBox ID="chkAlarmStatusVisible" runat="server" Checked="true" ClientIDMode="Static" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmStatusAlignLeft" runat="server" GroupName="rdoAlarmStatusAlign" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmStatusAlignCenter" runat="server" GroupName="rdoAlarmStatusAlign" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmStatusAlignRight" runat="server" GroupName="rdoAlarmStatusAlign" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 text-right">
+                            <h4>Description</h4>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <asp:CheckBox ID="chkAlarmDescriptionVisible" runat="server" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmDescriptionAlignLeft" runat="server" GroupName="rdoAlarmDescriptionAlign" Checked="true" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmDescriptionAlignCenter" runat="server" GroupName="rdoAlarmDescriptionAlign" />
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <asp:RadioButton ID="rdoAlarmDescriptionAlignRight" runat="server" GroupName="rdoAlarmDescriptionAlign" />
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12" >
-
+                        <div id="gridAlarmDetails" class="grid">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+            var results = {
+                "ColumnHeaderNames": {
+    	            "alarmID":"AlarmID",
+    	            "alarmType":"Alarm Type",
+    	            "lastService":"Last Service",
+    	            "zone":"Zone",
+    	            "floor":"Floor",
+                    "room":"Room",
+    	            "alarmStatus":"Alarm Status",
+    	            "alarmDescription":"Alarm Description"
+                },
+                "ColumnVisibilities": {
+    	            "alarmID":false,
+    	            "alarmType":true,
+    	            "lastService":true,
+    	            "zone":true,
+    	            "floor":true,
+                    "room":true,
+    	            "alarmStatus":true,
+    	            "alarmDescription":false
+                },
+                "ColumnSizes": {
+    	            "alarmID":0,
+    	            "alarmType":3,
+    	            "lastService":3,
+    	            "zone":1,
+    	            "floor":1,
+                    "room":1,
+    	            "alarmStatus":3,
+    	            "alarmDescription":0
+                },
+                "ColumnAlignments": {
+    	            "alarmID":"center",
+    	            "alarmType":"left",
+    	            "lastService":"center",
+    	            "zone":"center",
+    	            "floor":"center",
+                    "room":"center",
+    	            "alarmStatus":"center",
+    	            "alarmDescription":"center"
+                },
+                "recordSet": {
+    	            0: {
+        	            "alarmID":"1",
+                        "alarmType":"Camera",
+                        "lastService":"12/23/18",
+                        "zone":"A",
+                        "floor":"1",
+                        "room":"100",
+                        "alarmStatus":"OK",
+                        "alarmDescription":"Ceiling mounted camera"
+                    },
+                    1: {
+        	            "alarmID":"2",
+                        "alarmType":"Fire",
+                        "lastService":"3/4/16",
+                        "zone":"B",
+                        "floor":"1",
+                        "room":"116",
+                        "alarmStatus":"Service",
+                        "alarmDescription":"Standard fire alarm mounted on North wall"
+                    },
+                    2: {
+        	            "alarmID":"3",
+                        "alarmType":"Carbon Monoxide",
+                        "lastService":"1/25/19",
+                        "zone":"D",
+                        "floor":"2",
+                        "room":"211",
+                        "alarmStatus":"Triggered",
+                        "alarmDescription":"Mounted high on the West wall"
+                    },
+                    3: {
+        	            "alarmID":"4",
+                        "alarmType":"Sprinkler",
+                        "lastService":"8/17/18",
+                        "zone":"E",
+                        "floor":"3",
+                        "room":"300",
+                        "alarmStatus":"Alert",
+                        "alarmDescription":"Ceiling mounted, middle of the room"
+                    },
+                    4: {
+        	            "alarmID":"5",
+                        "alarmType":"Lighted Pathway",
+                        "lastService":"5/1/17",
+                        "zone":"E",
+                        "floor":"3",
+                        "room":"301",
+                        "alarmStatus":"Service",
+                        "alarmDescription":"Inlayed LED pathway, East wall"
+                    },
+    	            5: {
+        	            "alarmID":"6",
+                        "alarmType":"Security Door",
+                        "lastService":"10/07/17",
+                        "zone":"C",
+                        "floor":"2",
+                        "room":"204",
+                        "alarmStatus":"OK",
+                        "alarmDescription":"Door opens inward"
+                    },
+    	            6: {
+        	            "alarmID":"7",
+                        "alarmType":"Camera",
+                        "lastService":"10/31/17",
+                        "zone":"G",
+                        "floor":"4",
+                        "room":"400",
+                        "alarmStatus":"OK",
+                        "alarmDescription":"Mounted on South wall"
+                    }
+                }
+            };
+
+            function renderGrid(gridToUse, resultsToRender) {
+                var grid = $("#" + gridToUse);
+                var gridContent = "";
+                var recordSet = resultsToRender.recordSet;
+    
+                //Build the Column Headers
+                for (var row in recordSet) {
+                    if (recordSet.hasOwnProperty(row)) {
+        	            currentRow = recordSet[row];
+                        gridContent += "<div id='"+gridToUse+"-header' class='row display-flex gridHeader'>";
+                        for (var column in currentRow) {
+            	            if (currentRow.hasOwnProperty(column)) {
+                	            if (resultsToRender.ColumnVisibilities[column]) {
+                                    gridContent += 
+                                    "<div id='"+gridToUse+"-"+column+"' class='col-lg-"+resultsToRender.ColumnSizes[column]+" gridCell "+resultsToRender.ColumnAlignments[column]+"'>" + 
+                                        "<div class='gridCellContent'>" +
+                                            resultsToRender.ColumnHeaderNames[column] +
+                                        "</div>" +
+                                    "</div>";
+                                }
+                            }
+                        }
+                    }
+                    gridContent +=  "</div>";
+                    break;
+                }
+    
+                //Build the rest of the dataset
+                for (var row in recordSet) {
+                    if (recordSet.hasOwnProperty(row)) {
+                        currentRow = recordSet[row];
+
+                        var rowClass = currentRow.alarmStatus.toLowerCase();
+                        if (rowClass == "alert") {
+            	            rowClass = "alarm";
+                        }
+
+                        gridContent += "<div id='"+gridToUse+"-"+row+"' class='row display-flex gridRow "+rowClass+"'>";
+                        var columnCount = 0;
+
+                        for (var column in currentRow) {
+            	            if (currentRow.hasOwnProperty(column)) {
+                	            if (resultsToRender.ColumnVisibilities[column]) {
+                                    gridContent += 
+                                    "<div id='"+gridToUse+"-"+row+","+columnCount+"' class='col-lg-"+resultsToRender.ColumnSizes[column]+" gridCell "+resultsToRender.ColumnAlignments[column]+"'>" + 
+                                        "<div class='gridCellContent'>" +
+                                            currentRow[column] +
+                                        "</div>" +
+                                    "</div>";
+                                    columnCount++;
+                                }
+                            }
+                        }
+                    }
+                    gridContent +=  "</div>";
+                }
+    
+  	            //Done building, simply append HTML to grid container
+                
+                grid.append(gridContent);
+        }
+
+        $(document).ready(function () {
+            renderGrid("gridAlarmDetails", results);
+        });
+        
+
+    </script>
 
 </asp:Content>

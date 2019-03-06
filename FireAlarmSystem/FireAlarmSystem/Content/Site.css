@@ -61,6 +61,9 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #393939;
     margin-bottom: 2em;
     box-shadow: #111 0px 0px 20px;
+    max-height: 50em;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 
@@ -129,7 +132,7 @@ h1, h2, h3, h4, h5, h6 {
             z-index:0;
         }
             .indicator.summary:hover {
-                transform: scale(1.2);
+                transform: scale(1.1);
                 box-shadow: #111 0px 0px 20px;
                 z-index: 5;
             }
@@ -145,7 +148,7 @@ h1, h2, h3, h4, h5, h6 {
             z-index: 0;
         }
             .indicator.specific:hover {
-                transform: scale(1.3);
+                transform: scale(1.2);
                 box-shadow: #111 0px 0px 10px;
                 z-index: 5;
             }
@@ -167,7 +170,7 @@ h1, h2, h3, h4, h5, h6 {
             z-index: 0;
         }
             .indicator.summary:hover {
-                transform: scale(1.2);
+                transform: scale(1.1);
                 box-shadow: #111 0px 0px 30px;
                 z-index: 5;
             }
@@ -183,7 +186,7 @@ h1, h2, h3, h4, h5, h6 {
             z-index: 0;
         }
             .indicator.specific:hover {
-                transform: scale(1.3);
+                transform: scale(1.2);
                 box-shadow: #111 0px 0px 15px;
                 z-index: 5;
             }
@@ -229,13 +232,138 @@ h1, h2, h3, h4, h5, h6 {
         color: red;
     }
 
-    /* Responsive: Portrait tablets and up */
-    @media screen and (min-width: 768px) {
-        .jumbotron {
-            margin-top: 20px;
-        }
 
-        .body-content {
-            padding: 0;
-        }
+/* Grid */
+.grid {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.gridHeader {
+    text-align: center;
+    background-color: #222;
+    color: white;
+    position: sticky;
+    border-top: 1px solid #222;
+    border-radius:0.25em 0.25em 0 0;
+    transition: all ease-in-out 0.1s;
+}
+
+    .gridHeader:hover {
+        cursor: pointer;
+        z-index: 10;
     }
+
+.gridRow {
+    color: white;
+    border: none;
+    transition: all ease-in-out 0.1s;
+}
+
+    .gridRow:last-child {
+        border-radius: 0 0 0.25em 0.25em;
+    }
+
+.center {
+    text-align: center;
+}
+.right {
+    text-align: right;
+}
+.left {
+    text-align: left;
+}
+
+    .gridRow:hover {
+        transition: all ease-in-out 0.1s;
+        transform: scale(1.005);
+        box-shadow: 0px 0px 10px 3px #222;
+        z-index: 10;
+    }
+
+.gridCell {
+    padding: 0.5em;
+    border-right: 1px solid #222;
+    transition: all ease-in-out 0.1s;
+}
+
+    .gridCell:last-child {
+        border-right: none;
+    }
+
+    .gridCell:hover {
+        transition: all ease-in-out 0.1s;
+        border-radius: 0.25em;
+        box-shadow: 0px 0px 5px 4px #007bff;
+    }
+
+.gridCellContent {
+    font-size: 1.2em;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.gridRow.ok {
+    background-color: #5F935F;
+    border:none!important;
+}
+
+.gridRow.service {
+    background-color: #9C9C0F;
+    border: none !important;
+}
+
+.gridRow.triggered {
+    background-color: #9C6A0F;
+    border: none !important;
+}
+
+.gridRow.alarm {
+    background-color: #9C0F0F;
+    border: none !important;
+}
+
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    .jumbotron {
+        margin-top: 20px;
+    }
+
+    .body-content {
+        padding: 0;
+    }
+}
+
+/* Fix for Bootstrap unequal column heights in Grid */
+.row.display-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .row.display-flex > [class*='col-'] {
+        display: flex;
+        flex-direction: column;
+    }
+
+/* Settings Cog */
+#settingsCog {
+    transition: all ease-in-out 0.3s;
+    max-height: 2.5em;
+}
+
+    #settingsCog:hover {
+        transition: all ease-in-out 0.3s;
+        transform: rotate(180deg) scale(1.5);
+    }
+    #settingsCog:active {
+        transform: rotate(-180deg) scale(1.4);
+    }
+
+/* Make the Checkboxes and Radio buttons bigger for settings panel */
+input[type='radio'] {
+    transform: scale(1.5);
+}
+input[type='checkbox'] {
+    transform: scale(1.5);
+}
