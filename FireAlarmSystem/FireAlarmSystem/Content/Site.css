@@ -1,7 +1,7 @@
 ﻿/* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
     background-color: #333;
     color: #FFF;
 }
@@ -17,13 +17,6 @@ body {
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0em;
     margin-bottom: 0.5em;
-}
-
-/* Larger container width in large windows */
-@media(min-width:1800px) {
-    .container {
-        width: 1740px;
-    }
 }
 
 /* Squised Columns for Specific Indicators in large windows*/
@@ -52,18 +45,73 @@ h1, h2, h3, h4, h5, h6 {
             padding-right: 0px;
             padding-right: 15px;
         }
+
+    .gridCellContent {
+        font-size: 0.8em !important;
+    }
+}
+
+/* Override width for smaller screens */
+@media(min-width:1400px) {
+    .container {
+        width: 1340px;
+    }
+    .gridCellContent {
+        font-size: 0.9em !important;
+    }
+}
+@media(min-width:1600px) {
+    .container {
+        width: 1540px;
+    }
+}
+
+/* Larger container width in large windows */
+@media(min-width:1800px) {
+    .container {
+        width: 1740px;
+    }
+}
+@media(min-width:2000px) {
+    .container {
+        width: 1940px;
+    }
+    .gridCellContent {
+        font-size: 1.2em !important;
+    }
+}
+@media(min-width:2200px) {
+    .container {
+        width: 2140px;
+    }
+    .gridCellContent {
+        font-size: 1.2em !important;
+    }
 }
 
 
 /* Panels */
 .panel {
-    padding: 1em;
     background-color: #393939;
     margin-bottom: 2em;
     box-shadow: #111 0px 0px 20px;
-    max-height: 50em;
+}
+
+.panelHeader {
+    padding-top: 0.8em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    box-shadow: 0 0.5em 2em -1em #222;
+}
+
+.panelContent {
+    padding: 0.8em;
+    max-height: 47.4em;
     overflow-y: auto;
     overflow-x: hidden;
+}
+.noOverflowY {
+    overflow-y:hidden;
 }
 
 
@@ -155,9 +203,6 @@ h1, h2, h3, h4, h5, h6 {
 
     /* Larger Indicators in large windows */
     @media(min-width:1800px) {
-        .container {
-            width: 1740px;
-        }
 
         .indicator.summary {
             transition: all ease-in-out 0.1s;
@@ -233,10 +278,13 @@ h1, h2, h3, h4, h5, h6 {
     }
 
 
-/* Grid */
+/* Grids */
 .grid {
-    padding-left: 1em;
-    padding-right: 1em;
+    margin-top: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    max-height: 30em;
+    overflow-y: auto;
 }
 
 .gridHeader {
@@ -245,24 +293,23 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
     position: sticky;
     border-top: 1px solid #222;
-    border-radius:0.25em 0.25em 0 0;
     transition: all ease-in-out 0.1s;
+    position: -webkit-sticky;
+    top: 0;
+    z-index:51;
 }
 
     .gridHeader:hover {
         cursor: pointer;
-        z-index: 10;
+        z-index: 50;
     }
 
 .gridRow {
     color: white;
     border: none;
     transition: all ease-in-out 0.1s;
+    z-index: 0;
 }
-
-    .gridRow:last-child {
-        border-radius: 0 0 0.25em 0.25em;
-    }
 
 .center {
     text-align: center;
@@ -274,9 +321,14 @@ h1, h2, h3, h4, h5, h6 {
     text-align: left;
 }
 
+.resizable {
+    resize: horizontal;
+    overflow: auto;
+}
+
     .gridRow:hover {
         transition: all ease-in-out 0.1s;
-        transform: scale(1.005);
+        filter: brightness(110%);
         box-shadow: 0px 0px 10px 3px #222;
         z-index: 10;
     }
@@ -284,7 +336,8 @@ h1, h2, h3, h4, h5, h6 {
 .gridCell {
     padding: 0.5em;
     border-right: 1px solid #222;
-    transition: all ease-in-out 0.1s;
+    transition: all ease-in-out 0.1s, width 0;
+    max-width: initial;
 }
 
     .gridCell:last-child {
@@ -298,8 +351,8 @@ h1, h2, h3, h4, h5, h6 {
     }
 
 .gridCellContent {
-    font-size: 1.2em;
-    font-weight: 600;
+    font-size: 1em;
+    font-weight: 500;
     pointer-events: none;
 }
 
@@ -323,6 +376,35 @@ h1, h2, h3, h4, h5, h6 {
     border: none !important;
 }
 
+.sort-caret.ASC {
+    float: right;
+    text-align: right;
+    width: 0;
+    height: 0;
+    margin-top: 0.6em;
+    content: "";
+    border-top: .4em solid white;
+    border-right: .4em solid transparent;
+    border-bottom: 0;
+    border-left: .4em solid transparent;
+    transform: rotate(-360deg);
+    transition: transform 150ms ease;
+}
+
+.sort-caret.DESC {
+    float: right;
+    text-align: right;
+    width: 0;
+    height: 0;
+    margin-top: 0.6em;
+    content: "";
+    border-top: 0;
+    border-right: .4em solid transparent;
+    border-bottom: .4em solid white;
+    border-left: .4em solid transparent;
+    transform: rotate(-360deg);
+    transition: transform 150ms ease;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -346,7 +428,8 @@ h1, h2, h3, h4, h5, h6 {
         flex-direction: column;
     }
 
-/* Settings Cog */
+/* Settings Panel */
+
 #settingsCog {
     transition: all ease-in-out 0.3s;
     max-height: 2.5em;
@@ -360,10 +443,116 @@ h1, h2, h3, h4, h5, h6 {
         transform: rotate(-180deg) scale(1.4);
     }
 
-/* Make the Checkboxes and Radio buttons bigger for settings panel */
-input[type='radio'] {
-    transform: scale(1.5);
+/* Bottom margin for controls in settings panel  */
+#gridUserSettings {
+    padding-left: 1.3em;
+    padding-right: 0.9em;
+    font-size: 1.1em;
 }
-input[type='checkbox'] {
-    transform: scale(1.5);
+
+.settingsGridHeader {
+    padding: 0.5em;
+    border-right: 1px solid #393939;
+    text-align: center;
+    background-color: #444;
+    color: white;
 }
+
+    .settingsGridHeader:first-child {
+        border-radius: 0.25em 0 0;
+        border-left: 1px solid #393939;
+    }
+    .settingsGridHeader:last-child {
+        border-radius: 0 0.25em 0 0;
+    }
+
+.settingsGridRow {
+    text-align: center;
+    color: white;
+    border-bottom: 1px solid #393939;
+}
+    .settingsGridRow:last-child {
+        border: none;
+    }
+    .settingsGridRow:last-child .settingsColumnName {
+        border-radius: 0 0 0 0.25em;
+    }
+    .settingsGridRow:last-child .settingsGridCell:last-child {
+        border-radius: 0 0 0.25em 0;
+    }
+
+.settingsColumnName {
+    padding: 0.5em;
+    text-align: right;
+    color: white;
+    border-left: 1px solid #393939;
+    border-right: 1px solid #393939;
+    background-color: #222;
+}
+    .settingsColumnName:last-child {
+        border-radius: 0 0 0.25em 0;
+    }
+
+.settingsGridCell {
+    padding: 0.5em;
+    border-right: 1px solid #393939;
+    background-color: #222;
+    transition: all ease-in-out 0.2s;
+    box-shadow: none;
+    color: rgb(0,0,0,0);
+    cursor: pointer;
+}
+
+    .settingsGridCell:first-child {
+        border-left: 1px solid #393939;
+    }
+
+    .settingsGridCell:hover {
+        transition: all ease-in-out 0.2s;
+        color: white;
+        background-color: #666;
+        text-decoration:none;
+    }
+    
+    .settingsGridCell:active {
+        transition: all ease-in-out 0.2s;
+        box-shadow: 0 0 1em 0.1em #222;
+        color: white;
+        z-index: 10;
+    }
+
+    .settingsGridCell.checked {
+        transition: all ease-in-out 0.2s;
+        background-color: #007bff;
+        color: white;
+    }
+
+        .settingsGridCell.checked:hover {
+            transition: all ease-in-out 0.2s;
+            background-color: #91c6ff;
+            color: black;
+        }
+
+        .settingsGridCell.checked:active {
+            transition: all ease-in-out 0.2s;
+            box-shadow: 0 0 1em 0.1em #222;
+            color: black;
+            z-index: 10;
+        }
+
+/* Visibly hide .NET controls without losing their functionality */
+.hideControl {
+    visibility:hidden;
+    display:none;
+}
+
+/* Override bootstrap primary button color */
+.btn-primary {
+    transition: all ease-in-out 0.2s;
+    background-color: #007BFF !important;
+}
+    .btn-primary:hover {
+        transition: all ease-in-out 0.2s;
+        background-color: #91c6ff !important;
+        color: black;
+    }

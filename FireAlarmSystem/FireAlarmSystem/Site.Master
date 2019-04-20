@@ -61,11 +61,6 @@
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
-            <footer>
-                <div class="text-center">
-                    &copy; <%: DateTime.Now.Year %> - Alarm Suite
-                </div>
-            </footer>
         </div>
 
     </form>
