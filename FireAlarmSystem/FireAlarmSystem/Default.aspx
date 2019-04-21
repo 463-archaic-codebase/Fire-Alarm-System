@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Dashboard" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="FireAlarmSystem._Default" %>
+<%@ MasterType TypeName="FireAlarmSystem.SiteMaster" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -10,13 +11,13 @@
     <asp:UpdatePanel ID="upnlAlarmDetails" runat="server">
         <Triggers>
             <asp:AsyncPostBackTrigger ControlID="btnOrderResults" />
-            <asp:AsyncPostBackTrigger ControlID="btnViewAllAlarms" />
+            <%--<asp:AsyncPostBackTrigger ControlID="btnViewAllAlarms" />
             <asp:AsyncPostBackTrigger ControlID="btnViewAllCameras" />
             <asp:AsyncPostBackTrigger ControlID="btnViewAllCarbonMonoxide" />
             <asp:AsyncPostBackTrigger ControlID="btnViewAllFireAlarms" />
             <asp:AsyncPostBackTrigger ControlID="btnViewAllLightedPathways" />
             <asp:AsyncPostBackTrigger ControlID="btnViewAllSecurityDoors" />
-            <asp:AsyncPostBackTrigger ControlID="btnViewAllSprinklers" />
+            <asp:AsyncPostBackTrigger ControlID="btnViewAllSprinklers" />--%>
         </Triggers>
         <ContentTemplate>
             <asp:Button ID="btnOrderResults" runat="server" CssClass="hideControl" ClientIDMode="Static" OnClick="btnOrderResults_Click"/>
@@ -25,8 +26,10 @@
             <asp:HiddenField ID="hfSortZone" runat="server" ClientIDMode="Static" />
             <asp:HiddenField ID="hfSortFloor" runat="server" ClientIDMode="Static" />
             <asp:HiddenField ID="hfSortRoom" runat="server" ClientIDMode="Static" />
-            <asp:HiddenField ID="hfSortAlarmStatus" runat="server" ClientIDMode="Static"/>
-            <asp:HiddenField ID="hfSortColumnChosen" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfSortAlarmStatus" runat="server" ClientIDMode="Static" Value="AlarmType"/>
+            <asp:HiddenField ID="hfSortColumnChosen" runat="server" ClientIDMode="Static" Value="ASC"/>
+            <asp:HiddenField ID="hfFilterAlarmTypeChosen" runat="server" ClientIDMode="Static" Value="%"/>
+            <asp:HiddenField ID="hfFilterAlarmStatusChosen" runat="server" ClientIDMode="Static" Value="%"/>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="panel">
@@ -44,9 +47,9 @@
                                         <div class="indicator-header summary">
                                             OK
                                         </div>
-                                        <div class="ok indicator summary">
+                                        <div class="ok indicator summary" onclick="filterDataResults('%', 'OK');">
                                             <div class="indicator-content" >
-                                                <asp:Label ID="summaryOK" runat="server" CssClass="indicator-label" Text="131"></asp:Label>
+                                                <asp:Label ID="summaryOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                             </div>
                                         </div>
                                     </div>
@@ -56,9 +59,9 @@
                                         <div class="indicator-header summary">
                                             Service
                                         </div>
-                                        <div class="service indicator summary">
+                                        <div class="service indicator summary" onclick="filterDataResults('%', 'Service');">
                                             <div class="indicator-content" >
-                                                <asp:Label ID="summaryService" runat="server" CssClass="indicator-label" Text="3"></asp:Label>
+                                                <asp:Label ID="summaryService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                             </div>
                                         </div>
                                     </div>
@@ -68,9 +71,9 @@
                                         <div class="indicator-header summary">
                                             Triggered
                                         </div>
-                                        <div class="triggered indicator summary">
+                                        <div class="triggered indicator summary" onclick="filterDataResults('%', 'Triggered');">
                                             <div class="indicator-content" >
-                                                <asp:Label ID="summaryTriggered" runat="server" CssClass="indicator-label" Text="4"></asp:Label>
+                                                <asp:Label ID="summaryTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                             </div>
                                         </div>
                                     </div>
@@ -80,9 +83,9 @@
                                         <div class="indicator-header summary">
                                             Alert
                                         </div>
-                                        <div class="alarm indicator summary">
+                                        <div class="alarm indicator summary" onclick="filterDataResults('%', 'Alert');">
                                             <div class="indicator-content" >
-                                                <asp:Label ID="summaryAlarm" runat="server" CssClass="indicator-label" Text="7"></asp:Label>
+                                                <asp:Label ID="summaryAlarm" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +93,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-center ">
-                                    <asp:Button ID="btnViewAllAlarms" runat="server" CssClass="btn btn-header-summary btn-primary center-block" Width="100%" Text="View All Alarms"/>
+                                    <asp:Button ID="btnViewAllAlarms" runat="server" CssClass="btn btn-header-summary btn-primary center-block" Width="100%" Text="View All Alarms" OnClientClick="filterDataResults('%', '%');" OnClick="btnOrderResults_Click"/>
                                 </div>
                             </div>
                         </div>
@@ -140,36 +143,36 @@
                                     <div class="row">
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="ok indicator specific">
+                                                <div class="ok indicator specific" onclick="filterDataResults('Camera', 'OK');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="cameraOk" runat="server" CssClass="indicator-label" Text="14"></asp:Label>
+                                                        <asp:Label ID="cameraOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="service indicator specific">
+                                                <div class="service indicator specific" onclick="filterDataResults('Camera', 'Service');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="cameraService" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="cameraService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="triggered indicator specific">
+                                                <div class="triggered indicator specific" onclick="filterDataResults('Camera', 'Triggered');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="cameraTriggered" runat="server" CssClass="indicator-label" Text="1"></asp:Label>
+                                                        <asp:Label ID="cameraTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="alarm indicator specific">
+                                                <div class="alarm indicator specific" onclick="filterDataResults('Camera', 'Alert');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="cameraAlert" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="cameraAlert" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -177,7 +180,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 text-center ">
-                                            <asp:Button ID="btnViewAllCameras" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Cameras"/>
+                                            <asp:Button ID="btnViewAllCameras" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Cameras" OnClientClick="filterDataResults('Camera', '%');" OnClick="btnOrderResults_Click"/>
                                         </div>
                                     </div>
                                 </div>
@@ -192,36 +195,36 @@
                                     <div class="row">
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="ok indicator specific">
+                                                <div class="ok indicator specific" onclick="filterDataResults('Carbon Monoxide', 'OK');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="carbonMonoxideOK" runat="server" CssClass="indicator-label" Text="19"></asp:Label>
+                                                        <asp:Label ID="carbonMonoxideOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="service indicator specific">
+                                                <div class="service indicator specific" onclick="filterDataResults('Carbon Monoxide', 'Service');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="carbonMonoxideService" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="carbonMonoxideService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="triggered indicator specific">
+                                                <div class="triggered indicator specific" onclick="filterDataResults('Carbon Monoxide', 'Triggered');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="carbonMonoxideTriggered" runat="server" CssClass="indicator-label" Text="1"></asp:Label>
+                                                        <asp:Label ID="carbonMonoxideTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="alarm indicator specific">
+                                                <div class="alarm indicator specific" onclick="filterDataResults('Carbon Monoxide', 'Alert');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="carbonMonoxideAlert" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="carbonMonoxideAlert" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,7 +232,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 text-center ">
-                                            <asp:Button ID="btnViewAllCarbonMonoxide" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Carbon Monoxide"/>
+                                            <asp:Button ID="btnViewAllCarbonMonoxide" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Carbon Monoxide" OnClientClick="filterDataResults('Carbon Monoxide', '%');" OnClick="btnOrderResults_Click"/>
                                         </div>
                                     </div>
                                 </div>
@@ -247,36 +250,36 @@
                                     <div class="row">
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="ok indicator specific">
+                                                <div class="ok indicator specific" onclick="filterDataResults('Fire', 'OK');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="fireOK" runat="server" CssClass="indicator-label" Text="22"></asp:Label>
+                                                        <asp:Label ID="fireOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="service indicator specific">
+                                                <div class="service indicator specific" onclick="filterDataResults('Fire', 'Service');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="fireService" runat="server" CssClass="indicator-label" Text="1"></asp:Label>
+                                                        <asp:Label ID="fireService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="triggered indicator specific">
+                                                <div class="triggered indicator specific" onclick="filterDataResults('Fire', 'Triggered');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="fireTriggered" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="fireTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="alarm indicator specific">
+                                                <div class="alarm indicator specific" onclick="filterDataResults('Fire', 'Alert');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="fireAlert" runat="server" CssClass="indicator-label" Text="2"></asp:Label>
+                                                        <asp:Label ID="fireAlert" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -284,7 +287,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 text-center ">
-                                            <asp:Button ID="btnViewAllFireAlarms" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Fire Alarms"/>
+                                            <asp:Button ID="btnViewAllFireAlarms" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Fire Alarms" OnClientClick="filterDataResults('Fire', '%');" OnClick="btnOrderResults_Click"/>
                                         </div>
                                     </div>
                                 </div>
@@ -299,36 +302,36 @@
                                     <div class="row">
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="ok indicator specific">
+                                                <div class="ok indicator specific" onclick="filterDataResults('Lighted Pathway', 'OK');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="lightedPathwayOK" runat="server" CssClass="indicator-label" Text="7"></asp:Label>
+                                                        <asp:Label ID="lightedPathwayOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="service indicator specific">
+                                                <div class="service indicator specific" onclick="filterDataResults('Lighted Pathway', 'Service');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="lightedPathwayService" runat="server" CssClass="indicator-label" Text="2"></asp:Label>
+                                                        <asp:Label ID="lightedPathwayService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="triggered indicator specific">
+                                                <div class="triggered indicator specific" onclick="filterDataResults('Lighted Pathway', 'Triggered');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="lightedPathwayTriggered" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="lightedPathwayTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="alarm indicator specific">
+                                                <div class="alarm indicator specific" onclick="filterDataResults('Lighted Pathway', 'Alert');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="lightedPathwayAlert" runat="server" CssClass="indicator-label" Text="1"></asp:Label>
+                                                        <asp:Label ID="lightedPathwayAlert" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -336,7 +339,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 text-center ">
-                                            <asp:Button ID="btnViewAllLightedPathways" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Lighted Pathways"/>
+                                            <asp:Button ID="btnViewAllLightedPathways" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Lighted Pathways" OnClientClick="filterDataResults('Lighted Pathway', '%');" OnClick="btnOrderResults_Click"/>
                                         </div>
                                     </div>
                                 </div>
@@ -354,36 +357,36 @@
                                     <div class="row">
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="ok indicator specific">
+                                                <div class="ok indicator specific" onclick="filterDataResults('Security Door', 'OK');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="securityDoorOK" runat="server" CssClass="indicator-label" Text="24"></asp:Label>
+                                                        <asp:Label ID="securityDoorOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="service indicator specific">
+                                                <div class="service indicator specific" onclick="filterDataResults('Security Door', 'Service');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="securityDoorService" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="securityDoorService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="triggered indicator specific">
+                                                <div class="triggered indicator specific" onclick="filterDataResults('Security Door', 'Triggered');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="securityDoorTriggered" runat="server" CssClass="indicator-label" Text="1"></asp:Label>
+                                                        <asp:Label ID="securityDoorTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="alarm indicator specific">
+                                                <div class="alarm indicator specific" onclick="filterDataResults('Security Door', 'Alert');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="securityDoorAlert" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="securityDoorAlert" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -391,7 +394,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 text-center ">
-                                            <asp:Button ID="btnViewAllSecurityDoors" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Security Doors"/>
+                                            <asp:Button ID="btnViewAllSecurityDoors" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Security Doors" OnClientClick="filterDataResults('Security Door', '%');" OnClick="btnOrderResults_Click"/>
                                         </div>
                                     </div>
                                 </div>
@@ -406,36 +409,36 @@
                                     <div class="row">
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="ok indicator specific">
+                                                <div class="ok indicator specific" onclick="filterDataResults('Sprinkler', 'OK');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="sprinklerOK" runat="server" CssClass="indicator-label" Text="45"></asp:Label>
+                                                        <asp:Label ID="sprinklerOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="service indicator specific">
+                                                <div class="service indicator specific" onclick="filterDataResults('Sprinkler', 'Service');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="sprinklerService" runat="server" CssClass="indicator-label" Text="0"></asp:Label>
+                                                        <asp:Label ID="sprinklerService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="triggered indicator specific">
+                                                <div class="triggered indicator specific" onclick="filterDataResults('Sprinkler', 'Triggered');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="sprinklerTriggered" runat="server" CssClass="indicator-label" Text="1"></asp:Label>
+                                                        <asp:Label ID="sprinklerTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 squish">
                                             <div class="indicator-container">
-                                                <div class="alarm indicator specific">
+                                                <div class="alarm indicator specific" onclick="filterDataResults('Sprinkler', 'Alert');">
                                                     <div class="indicator-content" >
-                                                        <asp:Label ID="sprinklerAlert" runat="server" CssClass="indicator-label" Text="4"></asp:Label>
+                                                        <asp:Label ID="sprinklerAlert" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -443,7 +446,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 text-center ">
-                                            <asp:Button ID="btnViewAllSprinklers" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Sprinklers"/>
+                                            <asp:Button ID="btnViewAllSprinklers" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Sprinklers" OnClientClick="filterDataResults('Sprinkler', '%');" OnClick="btnOrderResults_Click"/>
                                         </div>
                                     </div>
                                 </div>
@@ -494,8 +497,9 @@
             </div>
 
             <script>
+                //console.log('<%= hfUserSettingsJSON.Value %>');
                 var settings = JSON.parse('<%= hfUserSettingsJSON.Value %>');
-                console.log('<%= hfAlarmDetailsJSON.Value %>');
+                //console.log('<%= hfAlarmDetailsJSON.Value %>');
                 var results = JSON.parse('<%= hfAlarmDetailsJSON.Value %>');
 
                 <%--var results = {
@@ -817,7 +821,6 @@
                     var grid = $("#" + gridToUse);
                     var gridContent = "";
                     var recordSet = resultsToRender.recordSet;
-                    console.log(recordSet);
                     var gridConfiguration = gridSettings.gridConfiguration;
     
                     //Build the Column Headers
@@ -925,7 +928,6 @@
 
                     $("[id^=hfSort]").not("[id$="+columnName+"]")
                         .each(function () {
-                            console.log(this);
                             $(this).val("")
                     });
 
@@ -938,8 +940,16 @@
                         $('#hfSort' + columnName).val("");
                     }
                     $('#hfSortColumnChosen').val(columnName);
-                    console.log($('#hfSortColumnChosen').val());
-                    console.log($('#hfSort' + columnName).val());
+
+                    document.getElementById('btnOrderResults').click();
+                }
+
+                function filterDataResults(alarmType, alarmStatus) {
+                    //console.log(alarmType + ", " + alarmStatus);
+                    
+                    $('#hfFilterAlarmTypeChosen').val(alarmType);
+                    $('#hfFilterAlarmStatusChosen').val(alarmStatus);
+
 
                     document.getElementById('btnOrderResults').click();
                 }

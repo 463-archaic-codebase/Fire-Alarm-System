@@ -94,6 +94,24 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.HiddenField hfSortColumnChosen;
         
         /// <summary>
+        /// hfFilterAlarmTypeChosen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFilterAlarmTypeChosen;
+        
+        /// <summary>
+        /// hfFilterAlarmStatusChosen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFilterAlarmStatusChosen;
+        
+        /// <summary>
         /// summaryOK control.
         /// </summary>
         /// <remarks>
@@ -139,13 +157,13 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.Button btnViewAllAlarms;
         
         /// <summary>
-        /// cameraOk control.
+        /// cameraOK control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label cameraOk;
+        protected global::System.Web.UI.WebControls.Label cameraOK;
         
         /// <summary>
         /// cameraService control.
@@ -425,5 +443,17 @@ namespace FireAlarmSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfAlarmDetailsJSON;
+        
+        /// <summary>
+        /// Master property.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated property.
+        /// </remarks>
+        public new FireAlarmSystem.SiteMaster Master {
+            get {
+                return ((FireAlarmSystem.SiteMaster)(base.Master));
+            }
+        }
     }
 }

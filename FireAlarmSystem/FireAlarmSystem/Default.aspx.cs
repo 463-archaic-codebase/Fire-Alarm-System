@@ -20,12 +20,20 @@ namespace FireAlarmSystem
             if (!IsPostBack) {
                 //leave this hardcoded to UserID = 1. This is the No Fluff version (no fancy settings saved for users, etc.)
                 getSettingsForUser(1);
-                fillAlarmDetailsGrid("AlarmType", "ASC", "%", "%");
+                fillAlarmStatusIndicators();
+                fillAlarmDetailsGrid(hfSortColumnChosen.Value, hfSortColumnChosen.Value, hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
             }
             else
             {
                 //ScriptManager.RegisterStartupScript(this, GetType(), "renderSettingsGrid", "renderSettingsGrid(\"gridUserSettings\", settings); ", true);
                 //ScriptManager.RegisterStartupScript(this, GetType(), "renderDataGrid", "renderDataGrid(\"gridAlarmDetails\", results, settings); ", true);
+            }
+        }
+
+        protected void Page_LoadComplete(object sender, EventArgs e) {
+            if (!IsPostBack) {
+                fillAlarmStatusIndicators();
+            } else {
             }
         }
 
@@ -133,12 +141,90 @@ namespace FireAlarmSystem
 
             }
         }
+        
+        protected void fillAlarmStatusIndicators() {
+            try {
+                using (MySqlConnection conn = new MySqlConnection(cs)) {
+                    var procedure = "USP_Select_AlarmStatusCounts";
+                    MySqlCommand cmd = new MySqlCommand(procedure, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd)) {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        
+                        foreach (DataRow row in dt.Rows) {
+                            foreach (DataColumn column in dt.Columns) {
+                                if (column.ColumnName.Equals("summaryOK")) {
+                                    summaryOK.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("summaryService")) {
+                                    summaryService.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("summaryTriggered")) {
+                                    summaryTriggered.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("summaryAlert")) {
+                                    summaryAlarm.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("cameraOK")) {
+                                    cameraOK.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("cameraService")) {
+                                    cameraService.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("cameraTriggered")) {
+                                    cameraTriggered.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("cameraAlert")) {
+                                    cameraAlert.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("carbonMonoxideOK")) {
+                                    carbonMonoxideOK.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("carbonMonoxideService")) {
+                                    carbonMonoxideService.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("carbonMonoxideTriggered")) {
+                                    carbonMonoxideTriggered.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("carbonMonoxideAlert")) {
+                                    carbonMonoxideAlert.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("fireOK")) {
+                                    fireOK.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("fireService")) {
+                                    fireService.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("fireTriggered")) {
+                                    fireTriggered.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("fireAlert")) {
+                                    fireAlert.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("lightedPathwayOK")) {
+                                    lightedPathwayOK.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("lightedPathwayService")) {
+                                    lightedPathwayService.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("lightedPathwayTriggered")) {
+                                    lightedPathwayTriggered.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("lightedPathwayAlert")) {
+                                    lightedPathwayAlert.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("securityDoorOK")) {
+                                    securityDoorOK.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("securityDoorService")) {
+                                    securityDoorService.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("securityDoorTriggered")) {
+                                    securityDoorTriggered.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("securityDoorAlert")) {
+                                    securityDoorAlert.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("sprinklerOK")) {
+                                    sprinklerOK.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("sprinklerService")) {
+                                    sprinklerService.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("sprinklerTriggered")) {
+                                    sprinklerTriggered.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("sprinklerAlert")) {
+                                    sprinklerAlert.Text = row[column.ColumnName].ToString();
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (MySqlException ex) {
+
+            }
+        }
 
         protected void btnOrderResults_Click(object sender, EventArgs e) {
-
-            fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), "%", "%");
-            ScriptManager.RegisterStartupScript(this, GetType(), "renderDataGrid", "results = JSON.parse('"+hfAlarmDetailsJSON.Value+"');renderDataGrid(\"gridAlarmDetails\", results, settings); ", true);
-
+            fillAlarmStatusIndicators();
+            fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderDataGrid", "results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings); ", true);
         }
 
         private string getSortDirection(String sortColumnChosen) {
