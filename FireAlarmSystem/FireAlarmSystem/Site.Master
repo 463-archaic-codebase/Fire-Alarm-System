@@ -52,9 +52,17 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Dashboard</a></li>
-                        <li><a runat="server" href="~/About">About</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Alarm Utility<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="./addAlarm">Add New Alarm</a></li>
+                                <li><a href="./deleteAlarm">Remove an Alarm</a></li>
+                                <li><a href="#">Update an Alarm</a></li>
+                            </ul>
+                        </li> 
                         <li><a runat="server" href="~/Contact">Contact</a></li>
                     </ul>
+                    <ul></ul>
                 </div>
             </div>
         </div>
