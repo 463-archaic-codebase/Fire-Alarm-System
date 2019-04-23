@@ -45,7 +45,7 @@ namespace FireAlarmSystem {
         }
 
         protected void ddlAlarmLocation_SelectedIndexChanged(object sender, EventArgs e) {
-            fillLocationDDL();
+            
         }
 
         private void fillLocationDDL() {
@@ -91,6 +91,7 @@ namespace FireAlarmSystem {
                     cmd.Parameters.AddWithValue("alarmTypeID", ddlAlarmType.SelectedValue);
                     cmd.Parameters.AddWithValue("description", alarmDescription.Text);
                     cmd.Parameters.AddWithValue("locationID", ddlLocation.SelectedValue);
+
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     conn.Close();
