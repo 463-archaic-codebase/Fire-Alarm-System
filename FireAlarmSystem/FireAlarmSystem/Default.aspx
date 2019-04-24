@@ -20,7 +20,7 @@
         </Triggers>
         <ContentTemplate>
     
-            <asp:Timer ID="tAutoPostBack" runat="server" Interval="5000" OnTick="btnOrderResults_Click"></asp:Timer>
+            <asp:Timer ID="tAutoPostBack" runat="server" Interval="5000" OnTick="tAutoPostBack_Tick"></asp:Timer>
             <asp:Button ID="btnOrderResults" runat="server" CssClass="hideControl" ClientIDMode="Static" OnClick="btnOrderResults_Click"/>
             <asp:Button ID="btnResolveAlarm" runat="server" CssClass="hideControl" ClientIDMode="Static" OnClick="btnResolveAlarm_Click"/>
             <asp:Button ID="btnConfirmAlarm" runat="server" CssClass="hideControl" ClientIDMode="Static" OnClick="btnConfirmAlarm_Click"/>
@@ -476,8 +476,11 @@
                     <div class="panel">
                         <div class="panelHeader">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-5">
                                     <h2>Alarm Details</h2>
+                                </div>
+                                <div class="col-sm-7 text-right">
+                                    <asp:Label ID="lblResultsMessage" runat="server" CssClass="h3"></asp:Label>
                                 </div>
                             </div>
                         </div>
@@ -899,7 +902,7 @@
                                                 gridContent +=
                                                     "<div id='" + gridToUse + "-" + row + "," + columnCount + "' class='col-lg-" + gridConfiguration[column].width + " gridCell " + gridConfiguration[column].alignment + "'>" +
                                                         "<div class='gridCellContent'>" +
-                                                            "<span class='resolve' onmouseover='this.innerHTML = \"&nbsp;Resolve&nbsp;\"' onmouseout='this.innerHTML = \"&nbsp;&#10006;&nbsp;\"' onclick='resolveAlarm(\"" + alarmID + "\",\"" + alarmType + "\");'>&nbsp;&#10006;&nbsp;</span>&nbsp;" + currentRow[column] + "&nbsp;<span class='confirm' onmouseover='this.innerHTML = \"&nbsp;Confirm&nbsp;\"' onmouseout='this.innerHTML = \"&nbsp;&#10004;&nbsp;\"'  onclick='confirmAlarm(\"" + alarmID + "\",\"" + alarmType + "\");'>&nbsp;&#10004;&nbsp;</span>" +
+                                                            "<span class='resolve' onmouseover='this.innerHTML = \"&nbsp;Resolve&nbsp;\"' onmouseout='this.innerHTML = \"&nbsp;&#10006;&nbsp;\"' onclick='resolveAlarm(\"" + alarmID + "\");'>&nbsp;&#10006;&nbsp;</span>&nbsp;" + currentRow[column] + "&nbsp;<span id='confirm"+alarmID+"' class='confirm' onmouseover='this.innerHTML = \"&nbsp;Confirm&nbsp;\"' onmouseout='this.innerHTML = \"&nbsp;&#10004;&nbsp;\"'  onclick='confirmAlarm(\"" + alarmID + "\",\"" + alarmType + "\");'>&nbsp;&#10004;&nbsp;</span>" +
                                                         "</div>" +
                                                     "</div>";
                                             } else {
@@ -1103,9 +1106,8 @@
                 }
 
 
-                function resolveAlarm(alarmID, alarmType) {
+                function resolveAlarm(alarmID) {
                     $('#hfResolvedAlarmID').val(alarmID);
-                    $('#hfResolvedAlarmType').val(alarmType);
                     
                     document.getElementById('btnResolveAlarm').click();
                 }

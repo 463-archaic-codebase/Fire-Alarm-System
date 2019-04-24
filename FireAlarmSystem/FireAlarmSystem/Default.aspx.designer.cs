@@ -544,6 +544,15 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.Button btnViewAllSprinklers;
         
         /// <summary>
+        /// lblResultsMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblResultsMessage;
+        
+        /// <summary>
         /// hfUserSettingsJSON control.
         /// </summary>
         /// <remarks>

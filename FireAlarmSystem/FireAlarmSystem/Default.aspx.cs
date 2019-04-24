@@ -19,10 +19,12 @@ namespace FireAlarmSystem
             
             if (!IsPostBack) {
                 //leave this hardcoded to UserID = 1. This is the No Fluff version (no fancy settings saved for users, etc.)
+                Session["TotalTimeUp"] = 0;
                 getSettingsForUser(1);
                 fillAlarmStatusIndicators();
-                fillMessagesGrid("Time", "ASC");
+                fillMessagesGrid("Time", "DESC");
                 fillAlarmDetailsGrid(hfSortColumnChosen.Value, "ASC", hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
+                updateTriggeredAlarmCountdowns();
             }
             else
             {
@@ -99,6 +101,8 @@ namespace FireAlarmSystem
 
         protected void fillAlarmDetailsGrid(String sortExpression, String sortDirection, String alarmType, String alarmStatus )
         {
+            lblResultsMessage.Text = "";
+            
             String resultsJSON = "{";
             try
             {
@@ -121,6 +125,8 @@ namespace FireAlarmSystem
 
                         int rowCount = 0;
                         foreach (DataRow row in dt.Rows) {
+                            String alarmID = row["alarmID"].ToString();
+                            String alarmTypeText = row["alarmType"].ToString();
                             resultsJSON += "\""+rowCount + "\":{";
                             foreach (DataColumn column in dt.Columns) {
                                 String currentCellValue = row[column.ColumnName].ToString();
@@ -151,13 +157,63 @@ namespace FireAlarmSystem
                     }
                 }
                 hfAlarmDetailsJSON.Value = resultsJSON;
+                if ("{\"recordSet\": }}".Equals(resultsJSON)) {
+                    hfAlarmDetailsJSON.Value = "{}";
+                    lblResultsMessage.Text = "No results. Select a different filter.";
+                } else {
+                    String alarmTypeText = alarmType;
+                    String alarmStatusText = alarmStatus;
+                    if ("%".Equals(alarmTypeText)) {
+                        alarmTypeText = "All Types";
+                    }
+                    if ("%".Equals(alarmStatusText)) {
+                        alarmStatusText = "All Statuses";
+                    }
+                    lblResultsMessage.Text = alarmTypeText + " - " + alarmStatusText;
+                }
+
+                
             }
             catch (MySqlException ex)
             {
 
             }
         }
-        
+
+        protected void updateTriggeredAlarmCountdowns() {
+            try {
+                using (MySqlConnection conn = new MySqlConnection(cs)) {
+                    var procedure = "USP_Select_TriggerdAlarms";
+                    MySqlCommand cmd = new MySqlCommand(procedure, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd)) {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        foreach (DataRow row in dt.Rows) {
+                            String alarmID = row["alarmID"].ToString();
+                            foreach (DataColumn column in dt.Columns) {
+                                String currentCellValue = row[column.ColumnName].ToString();
+                                if (currentCellValue.Equals("Triggered")) {
+                                    if (Session[alarmID] == null) {
+                                        Session[alarmID] = Session["TotalTimeUp"];
+                                    } else {
+                                        int alarmTriggeredTime = ((int)Session[alarmID]);
+                                        if (alarmTriggeredTime + 30 <= ((int)Session["TotalTimeUp"])) {
+                                            Session[alarmID] = null;
+                                            Session["autoConfirmScript"] = Session["autoConfirmScript"] + "$('#confirm" + alarmID + "').click();";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (MySqlException ex) {
+
+            }
+        }
+
         protected void fillAlarmStatusIndicators() {
             try {
                 using (MySqlConnection conn = new MySqlConnection(cs)) {
@@ -281,10 +337,10 @@ namespace FireAlarmSystem
             }
         }
 
-        protected void updateAlarmStatus(String alarmID, String alarmType, String alarmStatus) {
+        protected void confirmAlarms(String alarmID, String alarmType, String alarmStatus) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(cs)) {
-                    var procedure = "USP_Update_Alarms";
+                    var procedure = "USP_Confirm_Alarms";
                     MySqlCommand cmd = new MySqlCommand(procedure, conn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     conn.Open();
@@ -301,12 +357,51 @@ namespace FireAlarmSystem
                 string test = ex.Message;
             }
         }
+        protected void resolveAlarm(String alarmID) {
+            try {
+                using (MySqlConnection conn = new MySqlConnection(cs)) {
+                    var procedure = "USP_Resolve_Alarm";
+                    MySqlCommand cmd = new MySqlCommand(procedure, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("AlarmID", alarmID);
+
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd)) {
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            } catch (MySqlException ex) {
+                string test = ex.Message;
+            }
+        }
+        protected void serviceAlarm(String alarmID) {
+            try {
+                using (MySqlConnection conn = new MySqlConnection(cs)) {
+                    var procedure = "USP_Service_Alarm";
+                    MySqlCommand cmd = new MySqlCommand(procedure, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("AlarmID", alarmID);
+                    String userName = Session["userName"].ToString();
+                    cmd.Parameters.AddWithValue("UserName", userName);
+
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd)) {
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            } catch (MySqlException ex) {
+                string test = ex.Message;
+            }
+        }
 
         protected void btnOrderResults_Click(object sender, EventArgs e) {
             fillAlarmStatusIndicators();
             fillMessagesGrid("Time", hfMessagesSortMessageTime.Value);
             fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
-            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val()); ", true);
+            updateTriggeredAlarmCountdowns();
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val());"+ Session["autoConfirmScript"], true);
         }
 
         private string getSortDirection(String sortColumnChosen) {
@@ -328,24 +423,36 @@ namespace FireAlarmSystem
         }
 
         protected void btnResolveAlarm_Click(object sender, EventArgs e) {
-            updateAlarmStatus(hfResolvedAlarmID.Value, hfResolvedAlarmType.Value, "OK");
+            resolveAlarm(hfResolvedAlarmID.Value);
             fillAlarmStatusIndicators();
             fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
-            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val()); ", true);
+            updateTriggeredAlarmCountdowns();
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val());" + Session["autoConfirmScript"], true);
         }
 
         protected void btnConfirmAlarm_Click(object sender, EventArgs e) {
-            updateAlarmStatus(hfConfirmedAlarmID.Value, hfConfirmedAlarmType.Value, "Alert");
+            confirmAlarms(hfConfirmedAlarmID.Value, hfConfirmedAlarmType.Value, "Alert");
             fillAlarmStatusIndicators();
             fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
-            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val()); ", true);
+            updateTriggeredAlarmCountdowns();
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val());" + Session["autoConfirmScript"], true);
+            Session["autoConfirmScript"] = "";
         }
 
         protected void btnServiceAlarm_Click(object sender, EventArgs e) {
-            updateAlarmStatus(hfServicedAlarmID.Value, "", "OK");
+            serviceAlarm(hfServicedAlarmID.Value);
             fillAlarmStatusIndicators();
             fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
-            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val()); ", true);
+            updateTriggeredAlarmCountdowns();
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val());" + Session["autoConfirmScript"], true);
+        }
+
+        protected void tAutoPostBack_Tick(object sender, EventArgs e) {
+            
+            int totalTimeUp = ((int)Session["TotalTimeUp"]);
+            Session["TotalTimeUp"] = totalTimeUp + 5;
+
+            btnOrderResults_Click(sender, e);
         }
     }
 }
