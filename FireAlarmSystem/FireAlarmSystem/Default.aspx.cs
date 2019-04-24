@@ -21,7 +21,8 @@ namespace FireAlarmSystem
                 //leave this hardcoded to UserID = 1. This is the No Fluff version (no fancy settings saved for users, etc.)
                 getSettingsForUser(1);
                 fillAlarmStatusIndicators();
-                fillAlarmDetailsGrid(hfSortColumnChosen.Value, hfSortColumnChosen.Value, hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
+                fillMessagesGrid("Time", "ASC");
+                fillAlarmDetailsGrid(hfSortColumnChosen.Value, "ASC", hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
             }
             else
             {
@@ -56,7 +57,7 @@ namespace FireAlarmSystem
                                 String columnName = column.ColumnName;
                                 if ("columnName".Equals(columnName)) {
                                     userSettingsJSON += "\"" + row[columnName] + "\":{";
-                                } else if ("visible".Equals(columnName)) {
+                                } else if ("visible".Equals(columnName) || "sortable".Equals(columnName)) {
                                     userSettingsJSON += "\"" + columnName + "\":" + row[columnName] + ",";
                                 } else {
                                     userSettingsJSON += "\"" + columnName + "\":\"" + row[columnName] + "\",";
@@ -116,15 +117,30 @@ namespace FireAlarmSystem
                         DataTable dt = new DataTable();
                         da.Fill(dt);
 
-                        resultsJSON += "\"recordSet\": {";
+                         resultsJSON += "\"recordSet\": {";
 
                         int rowCount = 0;
                         foreach (DataRow row in dt.Rows) {
                             resultsJSON += "\""+rowCount + "\":{";
                             foreach (DataColumn column in dt.Columns) {
-                                if (!column.ColumnName.Equals("alarmID")) {
-                                    resultsJSON += "\"" + column.ColumnName + "\":\""+row[column.ColumnName]+"\",";
+                                String currentCellValue = row[column.ColumnName].ToString();
+                                if (currentCellValue.Contains("'")) {
+                                    currentCellValue = currentCellValue.Replace("'", "\\'");
                                 }
+                                if (currentCellValue.Contains("\"")) {
+                                    currentCellValue = currentCellValue.Replace("\"", "\'\'");
+                                }
+                                if (column.ColumnName.Equals("lastService")) {
+                                    if (currentCellValue.Contains(" 12:00:00 AM")) {
+                                        currentCellValue = currentCellValue.Replace(" 12:00:00 AM", "");
+                                    }
+                                }
+                                resultsJSON += "\"" + column.ColumnName + "\":\""+ currentCellValue + "\",";
+                                //if (column.ColumnName.Equals("LastService")) {
+                                //    String serviceDateString = row[column.ColumnName].ToString();
+                                //    DateTime serviceDate = DateTime.ParseExact(serviceDateString, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                                //    resultsJSON += "\"" + column.ColumnName + "\":\"" + serviceDate.ToString() + "\",";
+                                //}
                             }
                             resultsJSON = resultsJSON.Remove(resultsJSON.Length - 1);
                             resultsJSON += "},";
@@ -163,14 +179,14 @@ namespace FireAlarmSystem
                                     summaryTriggered.Text = row[column.ColumnName].ToString();
                                 } else if (column.ColumnName.Equals("summaryAlert")) {
                                     summaryAlarm.Text = row[column.ColumnName].ToString();
-                                } else if (column.ColumnName.Equals("cameraOK")) {
-                                    cameraOK.Text = row[column.ColumnName].ToString();
-                                } else if (column.ColumnName.Equals("cameraService")) {
-                                    cameraService.Text = row[column.ColumnName].ToString();
-                                } else if (column.ColumnName.Equals("cameraTriggered")) {
-                                    cameraTriggered.Text = row[column.ColumnName].ToString();
-                                } else if (column.ColumnName.Equals("cameraAlert")) {
-                                    cameraAlert.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("securityAlarmOK")) {
+                                    securityAlarmOK.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("securityAlarmService")) {
+                                    securityAlarmService.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("securityAlarmTriggered")) {
+                                    securityAlarmTriggered.Text = row[column.ColumnName].ToString();
+                                } else if (column.ColumnName.Equals("securityAlarmAlert")) {
+                                    securityAlarmAlert.Text = row[column.ColumnName].ToString();
                                 } else if (column.ColumnName.Equals("carbonMonoxideOK")) {
                                     carbonMonoxideOK.Text = row[column.ColumnName].ToString();
                                 } else if (column.ColumnName.Equals("carbonMonoxideService")) {
@@ -221,28 +237,115 @@ namespace FireAlarmSystem
             }
         }
 
+
+        protected void fillMessagesGrid(String sortExpression, String sortDirection) {
+            String messagesJSON = "{";
+            try {
+                using (MySqlConnection conn = new MySqlConnection(cs)) {
+                    var procedure = "USP_Get_Select_Messages";
+                    MySqlCommand cmd = new MySqlCommand(procedure, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("SortExpression", sortExpression);
+                    cmd.Parameters.AddWithValue("SortDirection", sortDirection);
+
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd)) {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        messagesJSON += "\"recordSet\": {";
+
+                        int rowCount = 0;
+                        foreach (DataRow row in dt.Rows) {
+                            messagesJSON += "\"" + rowCount + "\":{";
+                            foreach (DataColumn column in dt.Columns) {
+                                String currentCellValue = row[column.ColumnName].ToString();
+                                if (currentCellValue.Contains("'")) {
+                                    currentCellValue = currentCellValue.Replace("'", "\\'");
+                                }
+                                if (currentCellValue.Contains("\"")) {
+                                    currentCellValue = currentCellValue.Replace("\"", "\'\'");
+                                }
+                                messagesJSON += "\"" + column.ColumnName + "\":\"" + currentCellValue + "\",";
+                            }
+                            messagesJSON = messagesJSON.Remove(messagesJSON.Length - 1);
+                            messagesJSON += "},";
+                            rowCount++;
+                        }
+                        messagesJSON = messagesJSON.Remove(messagesJSON.Length - 1);
+                        messagesJSON += "}}";
+                    }
+                }
+                hfMessageCenterJSON.Value = messagesJSON;
+            } catch (MySqlException ex) {
+
+            }
+        }
+
+        protected void updateAlarmStatus(String alarmID, String alarmType, String alarmStatus) {
+            try {
+                using (MySqlConnection conn = new MySqlConnection(cs)) {
+                    var procedure = "USP_Update_Alarms";
+                    MySqlCommand cmd = new MySqlCommand(procedure, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("AlarmID", alarmID);
+                    cmd.Parameters.AddWithValue("AlarmType", alarmType);
+                    cmd.Parameters.AddWithValue("AlarmStatus", alarmStatus);
+                    
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd)) {
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            } catch (MySqlException ex) {
+                string test = ex.Message;
+            }
+        }
+
         protected void btnOrderResults_Click(object sender, EventArgs e) {
             fillAlarmStatusIndicators();
+            fillMessagesGrid("Time", hfMessagesSortMessageTime.Value);
             fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
-            ScriptManager.RegisterStartupScript(this, GetType(), "renderDataGrid", "results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings); ", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val()); ", true);
         }
 
         private string getSortDirection(String sortColumnChosen) {
             if ("AlarmType".Equals(sortColumnChosen)) {
-                return hfSortAlarmType.Value;
+                return hfAlarmsSortAlarmType.Value;
             } else if ("AlarmStatus".Equals(sortColumnChosen)) {
-                return hfSortAlarmStatus.Value;
+                return hfAlarmsSortAlarmStatus.Value;
             } else if ("Zone".Equals(sortColumnChosen)) {
-                return hfSortZone.Value;
+                return hfAlarmsSortZone.Value;
             } else if ("Floor".Equals(sortColumnChosen)) {
-                return hfSortFloor.Value;
+                return hfAlarmsSortFloor.Value;
             } else if ("Room".Equals(sortColumnChosen)) {
-                return hfSortRoom.Value;
+                return hfAlarmsSortRoom.Value;
             } else if ("LastService".Equals(sortColumnChosen)) {
-                return hfSortLastService.Value;
+                return hfAlarmsSortLastService.Value;
             } else {
-                return hfSortAlarmType.Value;
+                return hfAlarmsSortAlarmType.Value;
             }
+        }
+
+        protected void btnResolveAlarm_Click(object sender, EventArgs e) {
+            updateAlarmStatus(hfResolvedAlarmID.Value, hfResolvedAlarmType.Value, "OK");
+            fillAlarmStatusIndicators();
+            fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val()); ", true);
+        }
+
+        protected void btnConfirmAlarm_Click(object sender, EventArgs e) {
+            updateAlarmStatus(hfConfirmedAlarmID.Value, hfConfirmedAlarmType.Value, "Alert");
+            fillAlarmStatusIndicators();
+            fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val()); ", true);
+        }
+
+        protected void btnServiceAlarm_Click(object sender, EventArgs e) {
+            updateAlarmStatus(hfServicedAlarmID.Value, "", "OK");
+            fillAlarmStatusIndicators();
+            fillAlarmDetailsGrid(hfSortColumnChosen.Value, getSortDirection(hfSortColumnChosen.Value), hfFilterAlarmTypeChosen.Value, hfFilterAlarmStatusChosen.Value);
+            ScriptManager.RegisterStartupScript(this, GetType(), "renderGrids", "messages = JSON.parse('" + hfMessageCenterJSON.Value + "');results = JSON.parse('" + hfAlarmDetailsJSON.Value + "');renderDataGrid(\"gridAlarmDetails\", results, settings);$('#gridAlarmDetails').scrollTop($('#hfAlarmDetailsScrollPosition').val());renderMessageGrid(\"gridMessageCenter\", messages, settings);$('#gridMessageCenter').scrollTop($('#hfMessageCenterScrollPosition').val()); ", true);
         }
     }
 }

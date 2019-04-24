@@ -49,6 +49,12 @@ h1, h2, h3, h4, h5, h6 {
     .gridCellContent {
         font-size: 0.8em !important;
     }
+    #gridAlarmDetails{
+        max-height: 35.6em;
+    }
+    #gridMessageCenter {
+        max-height: 35.6em;
+    }
 }
 
 /* Override width for smaller screens */
@@ -59,10 +65,22 @@ h1, h2, h3, h4, h5, h6 {
     .gridCellContent {
         font-size: 0.9em !important;
     }
+    #gridAlarmDetails{
+        max-height: 37.9em;
+    }
+    #gridMessageCenter {
+        max-height: 18em;
+    }
 }
 @media(min-width:1600px) {
     .container {
         width: 1540px;
+    }
+    #gridAlarmDetails{
+        max-height: 40.5em;
+    }
+    #gridMessageCenter {
+        max-height: 19.75em;
     }
 }
 
@@ -70,6 +88,12 @@ h1, h2, h3, h4, h5, h6 {
 @media(min-width:1800px) {
     .container {
         width: 1740px;
+    }
+    #gridAlarmDetails{
+        max-height: 43.2em;
+    }
+    #gridMessageCenter {
+        max-height: 21.5em;
     }
 }
 @media(min-width:2000px) {
@@ -79,6 +103,12 @@ h1, h2, h3, h4, h5, h6 {
     .gridCellContent {
         font-size: 1.2em !important;
     }
+    #gridAlarmDetails{
+        max-height: 45em;
+    }
+    #gridMessageCenter {
+        max-height: 22.6em;
+    }
 }
 @media(min-width:2200px) {
     .container {
@@ -86,6 +116,12 @@ h1, h2, h3, h4, h5, h6 {
     }
     .gridCellContent {
         font-size: 1.2em !important;
+    }
+    #gridAlarmDetails{
+        max-height: 45em;
+    }
+    #gridMessageCenter {
+        max-height: 22.6em;
     }
 }
 
@@ -277,13 +313,109 @@ h1, h2, h3, h4, h5, h6 {
         color: red;
     }
 
+span.ok, span.service, span.triggered, span.alarm {
+    border: none !important;
+    font-weight: 600 !important;
+    background-color: #111 !important;
+}
 
-/* Grids */
-.grid {
+
+.confirm {
+    position:absolute;
+    right:0.2em;
+    line-height: inherit;
+    display: inline-block;
+    transition: all ease-in-out 0.1s;
+    border: 3px solid #4d0000;
+    background-color: #4d0000;
+    color: red;
+    font-weight: 600;
+    font-size: 0.7em;
+    cursor: pointer;
+    pointer-events: all !important;
+}
+
+.resolve {
+    position: absolute;
+    left: 0.2em;
+    line-height: inherit;
+    display: inline-block;
+    transition: all ease-in-out 0.1s;
+    border: 3px solid #0a420a;
+    background-color: #0a420a;
+    color: lightgreen;
+    font-weight: 600;
+    font-size: 0.7em;
+    cursor: pointer;
+    pointer-events: all !important;
+}
+
+.serviceButton {
+    position: absolute;
+    right: 0.2em;
+    line-height: inherit;
+    display: inline-block;
+    transition: all ease-in-out 0.1s;
+    border: 3px solid #4d4d00;
+    background-color: #4d4d00;
+    color: yellow;
+    font-weight: 600;
+    font-size: 0.7em;
+    cursor: pointer;
+    pointer-events: all !important;
+}
+
+
+.confirm:hover {
+    z-index:5;
+    box-shadow: #111 0px 0px 5px;
+    border: 3px solid red;
+    filter: brightness(125%);
+    transform: scale(2);
+}
+.resolve:hover {
+    z-index: 5;
+    box-shadow: #111 0px 0px 5px;
+    border: 3px solid lightgreen;
+    filter: brightness(125%);
+    transform: scale(2);
+}
+.serviceButton:hover {
+    z-index: 5;
+    box-shadow: #111 0px 0px 5px;
+    border: 3px solid yellow;
+    filter: brightness(125%);
+    transform: scale(2);
+}
+
+.confirm:active {
+    z-index: 5;
+    box-shadow: #111 0px 0px 5px;
+    border: 3px solid red;
+    filter: brightness(125%);
+    transform: scale(1.9);
+}
+.resolve:active {
+    z-index: 5;
+    box-shadow: #111 0px 0px 5px;
+    border: 3px solid lightgreen;
+    filter: brightness(125%);
+    transform: scale(1.9);
+}
+.serviceButton:active {
+    z-index: 5;
+    box-shadow: #111 0px 0px 5px;
+    border: 3px solid yellow;
+    filter: brightness(125%);
+    transform: scale(1.9);
+}
+
+    /* Grids */
+    .grid {
     margin-top: 1em;
     padding-left: 1.5em;
     padding-right: 1.5em;
-    max-height: 30em;
+    padding-bottom: 0.5em;
     overflow-y: auto;
 }
 
@@ -373,6 +505,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .gridRow.alarm {
     background-color: #9C0F0F;
+    border: none !important;
+}
+
+.gridRow.message {
+    background-color: #111;
     border: none !important;
 }
 

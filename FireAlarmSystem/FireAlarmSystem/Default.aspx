@@ -7,12 +7,11 @@
         <br />
     </div>
     
-    
     <asp:UpdatePanel ID="upnlAlarmDetails" runat="server">
         <Triggers>
             <asp:AsyncPostBackTrigger ControlID="btnOrderResults" />
             <%--<asp:AsyncPostBackTrigger ControlID="btnViewAllAlarms" />
-            <asp:AsyncPostBackTrigger ControlID="btnViewAllCameras" />
+            <asp:AsyncPostBackTrigger ControlID="btnViewAllSecurityAlarms" />
             <asp:AsyncPostBackTrigger ControlID="btnViewAllCarbonMonoxide" />
             <asp:AsyncPostBackTrigger ControlID="btnViewAllFireAlarms" />
             <asp:AsyncPostBackTrigger ControlID="btnViewAllLightedPathways" />
@@ -20,16 +19,29 @@
             <asp:AsyncPostBackTrigger ControlID="btnViewAllSprinklers" />--%>
         </Triggers>
         <ContentTemplate>
+    
+            <asp:Timer ID="tAutoPostBack" runat="server" Interval="5000" OnTick="btnOrderResults_Click"></asp:Timer>
             <asp:Button ID="btnOrderResults" runat="server" CssClass="hideControl" ClientIDMode="Static" OnClick="btnOrderResults_Click"/>
-            <asp:HiddenField ID="hfSortAlarmType" runat="server" ClientIDMode="Static"/>
-            <asp:HiddenField ID="hfSortLastService" runat="server" ClientIDMode="Static"/>
-            <asp:HiddenField ID="hfSortZone" runat="server" ClientIDMode="Static" />
-            <asp:HiddenField ID="hfSortFloor" runat="server" ClientIDMode="Static" />
-            <asp:HiddenField ID="hfSortRoom" runat="server" ClientIDMode="Static" />
-            <asp:HiddenField ID="hfSortAlarmStatus" runat="server" ClientIDMode="Static" Value="AlarmType"/>
-            <asp:HiddenField ID="hfSortColumnChosen" runat="server" ClientIDMode="Static" Value="ASC"/>
+            <asp:Button ID="btnResolveAlarm" runat="server" CssClass="hideControl" ClientIDMode="Static" OnClick="btnResolveAlarm_Click"/>
+            <asp:Button ID="btnConfirmAlarm" runat="server" CssClass="hideControl" ClientIDMode="Static" OnClick="btnConfirmAlarm_Click"/>
+            <asp:Button ID="btnServiceAlarm" runat="server" CssClass="hideControl" ClientIDMode="Static" OnClick="btnServiceAlarm_Click"/>
+            <asp:HiddenField ID="hfAlarmsSortAlarmType" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfAlarmsSortLastService" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfAlarmsSortZone" runat="server" ClientIDMode="Static" />
+            <asp:HiddenField ID="hfAlarmsSortFloor" runat="server" ClientIDMode="Static" />
+            <asp:HiddenField ID="hfAlarmsSortRoom" runat="server" ClientIDMode="Static" />
+            <asp:HiddenField ID="hfAlarmsSortAlarmStatus" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfMessagesSortMessageTime" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfSortColumnChosen" runat="server" ClientIDMode="Static" Value="AlarmType"/>
             <asp:HiddenField ID="hfFilterAlarmTypeChosen" runat="server" ClientIDMode="Static" Value="%"/>
             <asp:HiddenField ID="hfFilterAlarmStatusChosen" runat="server" ClientIDMode="Static" Value="%"/>
+            <asp:HiddenField ID="hfResolvedAlarmID" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfResolvedAlarmType" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfConfirmedAlarmID" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfConfirmedAlarmType" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfServicedAlarmID" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfAlarmDetailsScrollPosition" runat="server" ClientIDMode="Static"/>
+            <asp:HiddenField ID="hfMessageCenterScrollPosition" runat="server" ClientIDMode="Static"/>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="panel">
@@ -106,15 +118,21 @@
                                 <div class="col-sm-6">
                                     <h2>Message Center</h2>
                                 </div>
-                                <div class="col-sm-4 text-right">
-                                    <h3><%=DateTime.Now.ToShortDateString() %></h3>
-                                </div>
-                                <div class="col-sm-2 text-right">
-                                    <h3><%=DateTime.Now.ToString("HH:mm") %></h3>
+                                <div class="col-sm-6 text-right">
+                                    <h3><%=DateTime.Now.ToString("MM/dd/yyyy - h:mm tt") %></h3>
                                 </div>
                             </div>
                         </div>
                         <div class="panelContent">
+                            <div class="row">
+                                <div class="col-sm-12" >
+                                    <div id="messageCenterContainer">
+                                        <asp:HiddenField ID="hfMessageCenterJSON" runat="server" Visible="false" />
+                                        <div id="gridMessageCenter" class="grid" onscroll="$('#hfMessageCenterScrollPosition').val($(this).scrollTop());">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,58 +150,6 @@
                         </div>
                         <div class="panelContent">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="indicator-header specific">
-                                                Cameras
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-3 squish">
-                                            <div class="indicator-container">
-                                                <div class="ok indicator specific" onclick="filterDataResults('Camera', 'OK');">
-                                                    <div class="indicator-content" >
-                                                        <asp:Label ID="cameraOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 squish">
-                                            <div class="indicator-container">
-                                                <div class="service indicator specific" onclick="filterDataResults('Camera', 'Service');">
-                                                    <div class="indicator-content" >
-                                                        <asp:Label ID="cameraService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 squish">
-                                            <div class="indicator-container">
-                                                <div class="triggered indicator specific" onclick="filterDataResults('Camera', 'Triggered');">
-                                                    <div class="indicator-content" >
-                                                        <asp:Label ID="cameraTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 squish">
-                                            <div class="indicator-container">
-                                                <div class="alarm indicator specific" onclick="filterDataResults('Camera', 'Alert');">
-                                                    <div class="indicator-content" >
-                                                        <asp:Label ID="cameraAlert" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12 text-center ">
-                                            <asp:Button ID="btnViewAllCameras" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Cameras" OnClientClick="filterDataResults('Camera', '%');" OnClick="btnOrderResults_Click"/>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -236,9 +202,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div class="row">
                                 <div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -291,6 +254,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <br />
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -340,6 +306,58 @@
                                     <div class="row">
                                         <div class="col-sm-12 text-center ">
                                             <asp:Button ID="btnViewAllLightedPathways" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Lighted Pathways" OnClientClick="filterDataResults('Lighted Pathway', '%');" OnClick="btnOrderResults_Click"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="indicator-header specific">
+                                                Security Alarms
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3 squish">
+                                            <div class="indicator-container">
+                                                <div class="ok indicator specific" onclick="filterDataResults('Security Alarm', 'OK');">
+                                                    <div class="indicator-content" >
+                                                        <asp:Label ID="securityAlarmOK" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 squish">
+                                            <div class="indicator-container">
+                                                <div class="service indicator specific" onclick="filterDataResults('Security Alarm', 'Service');">
+                                                    <div class="indicator-content" >
+                                                        <asp:Label ID="securityAlarmService" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 squish">
+                                            <div class="indicator-container">
+                                                <div class="triggered indicator specific" onclick="filterDataResults('Security Alarm', 'Triggered');">
+                                                    <div class="indicator-content" >
+                                                        <asp:Label ID="securityAlarmTriggered" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 squish">
+                                            <div class="indicator-container">
+                                                <div class="alarm indicator specific" onclick="filterDataResults('Security Alarm', 'Alert');">
+                                                    <div class="indicator-content" >
+                                                        <asp:Label ID="securityAlarmAlert" runat="server" CssClass="indicator-label" ClientIDMode="Static"></asp:Label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center ">
+                                            <asp:Button ID="btnViewAllSecurityAlarms" runat="server" CssClass="btn btn-header-specific btn-primary center-block" Width="100%" Text="View All Security Alarms" OnClientClick="filterDataResults('Security Alarm', '%');" OnClick="btnOrderResults_Click"/>
                                         </div>
                                     </div>
                                 </div>
@@ -486,7 +504,7 @@
                                 <div class="col-sm-12" >
                                     <div id="alarmDetailsContainer">
                                         <asp:HiddenField ID="hfAlarmDetailsJSON" runat="server" Visible="false" />
-                                        <div id="gridAlarmDetails" class="grid">
+                                        <div id="gridAlarmDetails" class="grid" onscroll="$('#hfAlarmDetailsScrollPosition').val($(this).scrollTop());">
                                         </div>
                                     </div>
                                 </div>
@@ -501,6 +519,10 @@
                 var settings = JSON.parse('<%= hfUserSettingsJSON.Value %>');
                 //console.log('<%= hfAlarmDetailsJSON.Value %>');
                 var results = JSON.parse('<%= hfAlarmDetailsJSON.Value %>');
+                //console.log('<%= hfMessageCenterJSON.Value %>');
+                var messages = JSON.parse('<%= hfMessageCenterJSON.Value%>');
+
+                
 
                 <%--var results = {
                     "recordSet": {
@@ -833,10 +855,16 @@
             	                if (currentRow.hasOwnProperty(column)) {
                                     if (gridConfiguration[column].visible) {
                                         var headerID = gridToUse + "-" + column + "," + columnCount;
+                                        var sortableHeaderCaret = "";
+                                        var sortableOnClickHandler = "";
+                                        if (gridConfiguration[column].sortable) {
+                                            sortableHeaderCaret = "<span id='" + headerID + "-sortCaret' class='sort-caret " + $('#hfAlarmsSort' + column.charAt(0).toUpperCase() + column.slice(1)).val() + "'></span>";
+                                            sortableOnClickHandler = "onclick=\"toggleOrderByAlarms(this.id);\"";
+                                        }
                                         gridContent += 
-                                        "<div id='"+headerID+"' class='col-lg-"+gridConfiguration[column].width+" gridCell "+gridConfiguration[column].alignment+"' onclick=\"toggleOrderBy(this.id);\">" + 
+                                        "<div id='"+headerID+"' "+sortableOnClickHandler+" class='col-lg-"+gridConfiguration[column].width+" gridCell "+gridConfiguration[column].alignment+"'>" + 
                                             "<div class='gridCellContent'>" +
-                                                gridConfiguration[column].headerText + "<span id='"+headerID+"-sortCaret' class='sort-caret "+$('#hfSort' + column.charAt(0).toUpperCase() + column.slice(1)).val()+"'></span>" +
+                                                gridConfiguration[column].headerText + sortableHeaderCaret +
                                             "</div>" +
                                         "</div>";
                                     }
@@ -863,7 +891,103 @@
 
                             for (var column in currentRow) {
             	                if (currentRow.hasOwnProperty(column)) {
-                	                if (gridConfiguration[column].visible) {
+                                    if (gridConfiguration[column].visible) {
+                                        var alarmType = currentRow.alarmType;
+                                        var alarmID = currentRow.alarmID;
+                                        if (rowClass == "triggered" && column == "alarmStatus") {
+                                            if (alarmType == "Carbon Monoxide" || alarmType == "Fire" || alarmType == "Security Alarm") {
+                                                gridContent +=
+                                                    "<div id='" + gridToUse + "-" + row + "," + columnCount + "' class='col-lg-" + gridConfiguration[column].width + " gridCell " + gridConfiguration[column].alignment + "'>" +
+                                                        "<div class='gridCellContent'>" +
+                                                            "<span class='resolve' onmouseover='this.innerHTML = \"&nbsp;Resolve&nbsp;\"' onmouseout='this.innerHTML = \"&nbsp;&#10006;&nbsp;\"' onclick='resolveAlarm(\"" + alarmID + "\",\"" + alarmType + "\");'>&nbsp;&#10006;&nbsp;</span>&nbsp;" + currentRow[column] + "&nbsp;<span class='confirm' onmouseover='this.innerHTML = \"&nbsp;Confirm&nbsp;\"' onmouseout='this.innerHTML = \"&nbsp;&#10004;&nbsp;\"'  onclick='confirmAlarm(\"" + alarmID + "\",\"" + alarmType + "\");'>&nbsp;&#10004;&nbsp;</span>" +
+                                                        "</div>" +
+                                                    "</div>";
+                                            } else {
+                                                gridContent += 
+                                                "<div id='"+gridToUse+"-"+row+","+columnCount+"' class='col-lg-"+gridConfiguration[column].width+" gridCell "+gridConfiguration[column].alignment+"'>" + 
+                                                    "<div class='gridCellContent'>" +
+                                                        currentRow[column] +
+                                                    "</div>" +
+                                                "</div>";
+                                            }
+                                        } else if (rowClass == "service" && column == "alarmStatus") {
+                                            gridContent +=
+                                                "<div id='" + gridToUse + "-" + row + "," + columnCount + "' class='col-lg-" + gridConfiguration[column].width + " gridCell " + gridConfiguration[column].alignment + "'>" +
+                                                    "<div class='gridCellContent'>" +
+                                                         currentRow[column] + "&nbsp;<span class='serviceButton' onmouseover='this.innerHTML = \"&nbsp;Service&nbsp;\"' onmouseout='this.innerHTML = \"&nbsp;&#10004;&nbsp;\"'  onclick='serviceAlarm(\"" + alarmID + "\");'>&nbsp;&#10004;&nbsp;</span>" +
+                                                    "</div>" +
+                                                "</div>";
+                                            
+                                        } else {
+                                            gridContent += 
+                                            "<div id='"+gridToUse+"-"+row+","+columnCount+"' class='col-lg-"+gridConfiguration[column].width+" gridCell "+gridConfiguration[column].alignment+"'>" + 
+                                                "<div class='gridCellContent'>" +
+                                                    currentRow[column] +
+                                                "</div>" +
+                                            "</div>";
+                                        }
+                                        columnCount++;
+                                    }
+                                }
+                            }
+                        }
+                        gridContent +=  "</div>";
+                    }
+  	                //Done building, simply append HTML to grid container
+                    grid.append(gridContent);
+                }
+
+                
+                function renderMessageGrid(gridToUse, resultsToRender, gridSettings) {
+                    var grid = $("#" + gridToUse);
+                    var gridContent = "";
+                    var recordSet = resultsToRender.recordSet;
+                    var gridConfiguration = gridSettings.gridConfiguration;
+    
+                    //Build the Column Headers
+                    for (var row in recordSet) {
+                        if (recordSet.hasOwnProperty(row)) {
+        	                currentRow = recordSet[row];
+                            gridContent += "<div id='"+gridToUse+"-header' class='row display-flex gridHeader'>";
+                            var columnCount = 0;
+                            for (var column in currentRow) {
+            	                if (currentRow.hasOwnProperty(column)) {
+                                    if (gridConfiguration[column].visible) {
+                                        var headerID = gridToUse + "-" + column + "," + columnCount;
+                                        var sortableHeaderCaret = "";
+                                        var sortableOnClickHandler = "";
+                                        if (gridConfiguration[column].sortable) {
+                                            sortableHeaderCaret = "<span id='" + headerID + "-sortCaret' class='sort-caret " + $('#hfMessagesSort' + column.charAt(0).toUpperCase() + column.slice(1)).val() + "'></span>";
+                                            sortableOnClickHandler = "onclick=\"toggleOrderByMessages(this.id);\"";
+                                        }
+                                        gridContent += 
+                                        "<div id='"+headerID+"' "+sortableOnClickHandler+" class='col-lg-"+gridConfiguration[column].width+" gridCell "+gridConfiguration[column].alignment+"'>" + 
+                                            "<div class='gridCellContent'>" +
+                                                gridConfiguration[column].headerText + sortableHeaderCaret +
+                                            "</div>" +
+                                        "</div>";
+                                    }
+                                }
+                                columnCount++;
+                            }
+                        }
+                        gridContent +=  "</div>";
+                        break;
+                    }
+    
+                    //Build the rest of the dataset
+                    for (var row in recordSet) {
+                        if (recordSet.hasOwnProperty(row)) {
+                            currentRow = recordSet[row];
+
+                            var rowClass = "message";
+
+                            gridContent += "<div id='"+gridToUse+"-"+row+"' class='row display-flex gridRow "+rowClass+"'>";
+                            var columnCount = 0;
+
+                            for (var column in currentRow) {
+            	                if (currentRow.hasOwnProperty(column)) {
+                                    if (gridConfiguration[column].visible) {
                                         gridContent += 
                                         "<div id='"+gridToUse+"-"+row+","+columnCount+"' class='col-lg-"+gridConfiguration[column].width+" gridCell "+gridConfiguration[column].alignment+"'>" + 
                                             "<div class='gridCellContent'>" +
@@ -881,8 +1005,10 @@
                     grid.append(gridContent);
                 }
 
+
                 $(document).ready(function () {
                     //renderSettingsGrid("gridUserSettings", settings)
+                    renderMessageGrid("gridMessageCenter", messages, settings);
                     renderDataGrid("gridAlarmDetails", results, settings);
                 });
         
@@ -921,25 +1047,48 @@
                     });
                 }
 
-                function toggleOrderBy(columnID) {
+                function toggleOrderByAlarms(columnID) {
                     var gridComponents = columnID.split("-");
                     var columnName = gridComponents[1].split(",")[0];
                     columnName = columnName.charAt(0).toUpperCase() + columnName.slice(1);
 
-                    $("[id^=hfSort]").not("[id$="+columnName+"]")
+                    $("[id^=hfAlarmsSort]").not("[id$="+columnName+"]")
                         .each(function () {
                             $(this).val("")
                     });
 
-                    var sort = $('#hfSort' + columnName).val();
+                    var sort = $('#hfAlarmsSort' + columnName).val();
                     if (sort == "") {
-                        $('#hfSort' + columnName).val("ASC");
+                        $('#hfAlarmsSort' + columnName).val("ASC");
                     } else if (sort == "ASC") {
-                        $('#hfSort' + columnName).val("DESC");
+                        $('#hfAlarmsSort' + columnName).val("DESC");
                     } else if (sort == "DESC") {
-                        $('#hfSort' + columnName).val("");
+                        $('#hfAlarmsSort' + columnName).val("");
                     }
                     $('#hfSortColumnChosen').val(columnName);
+
+                    document.getElementById('btnOrderResults').click();
+                }
+
+                function toggleOrderByMessages(columnID) {
+                    var gridComponents = columnID.split("-");
+                    var columnName = gridComponents[1].split(",")[0];
+                    columnName = columnName.charAt(0).toUpperCase() + columnName.slice(1);
+
+                    $("[id^=hfMessagesSort]").not("[id$="+columnName+"]")
+                        .each(function () {
+                            $(this).val("")
+                    });
+
+                    var sort = $('#hfMessagesSort' + columnName).val();
+                    if (sort == "") {
+                        $('#hfMessagesSort' + columnName).val("ASC");
+                    } else if (sort == "ASC") {
+                        $('#hfMessagesSort' + columnName).val("DESC");
+                    } else if (sort == "DESC") {
+                        $('#hfMessagesSort' + columnName).val("");
+                    }
+                    //$('#hfSortColumnChosen').val(columnName);
 
                     document.getElementById('btnOrderResults').click();
                 }
@@ -949,9 +1098,35 @@
                     
                     $('#hfFilterAlarmTypeChosen').val(alarmType);
                     $('#hfFilterAlarmStatusChosen').val(alarmStatus);
-
-
+                    
                     document.getElementById('btnOrderResults').click();
+                }
+
+
+                function resolveAlarm(alarmID, alarmType) {
+                    $('#hfResolvedAlarmID').val(alarmID);
+                    $('#hfResolvedAlarmType').val(alarmType);
+                    
+                    document.getElementById('btnResolveAlarm').click();
+                }
+
+                function confirmAlarm(alarmID, alarmType) {
+                    $('#hfConfirmedAlarmID').val(alarmID);
+                    $('#hfConfirmedAlarmType').val(alarmType);
+                    
+                    document.getElementById('btnConfirmAlarm').click();
+                }
+
+                function serviceAlarm(alarmID) {
+                    $('#hfServicedAlarmID').val(alarmID);
+                    
+                    document.getElementById('btnServiceAlarm').click();
+                }
+
+
+
+                function getRandomTimeBetween(minTimeMillis, maxTimeMillis) {
+                    return Math.floor(Math.random() * (maxTimeMillis - minTimeMillis)) + minTimeMillis;
                 }
                 
             </script>
