@@ -17,5 +17,14 @@ namespace FireAlarmSystem
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Session_start(object sender, EventArgs e)
+        {
+            Session["Logged"] = "False";
+            Session["userID"] = "";
+            Session["userName"] = "";
+            Session["role"] = "";
+            Session["URL"] = "Default.aspx";
+        }
     }
 }
