@@ -14,13 +14,23 @@ namespace FireAlarmSystem
         {
             if(Session["Logged"].Equals("True"))
             {
-                panelLogged.Visible = true;
                 panelNotLogged.Visible = false;
+                if(Session["role"].Equals("Operator"))
+                {
+                    panelOperator.Visible = true;
+                    panelSupervisor.Visible = false;
+                }
+                else
+                {
+                    panelSupervisor.Visible = true;
+                    panelOperator.Visible = false;
+                }
             }
             else
             {
                 panelNotLogged.Visible = true;
-                panelLogged.Visible = false;
+                panelOperator.Visible = false;
+                panelSupervisor.Visible = false;
             }
 
             String page = Path.GetFileName(Request.Url.AbsolutePath);
