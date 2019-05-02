@@ -10,51 +10,42 @@
 namespace FireAlarmSystem {
     
     
-    public partial class SiteMaster {
+    public partial class Login {
         
         /// <summary>
-        /// panelNotLogged control.
+        /// txtUName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelNotLogged;
+        protected global::System.Web.UI.WebControls.TextBox txtUName;
         
         /// <summary>
-        /// panelSupervisor control.
+        /// txtPword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelSupervisor;
+        protected global::System.Web.UI.WebControls.TextBox txtPword;
         
         /// <summary>
-        /// panelOperator control.
+        /// loginBtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelOperator;
+        protected global::System.Web.UI.WebControls.Button loginBtn;
         
         /// <summary>
-        /// MainContent control.
+        /// msgLbl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
-        
-        /// <summary>
-        /// logoutBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button logoutBtn;
+        protected global::System.Web.UI.WebControls.Label msgLbl;
     }
 }

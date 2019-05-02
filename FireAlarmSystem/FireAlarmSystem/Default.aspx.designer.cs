@@ -13,6 +13,213 @@ namespace FireAlarmSystem {
     public partial class _Default {
         
         /// <summary>
+        /// upnlAlarmDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upnlAlarmDetails;
+        
+        /// <summary>
+        /// tAutoPostBack control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.Timer tAutoPostBack;
+        
+        /// <summary>
+        /// btnOrderResults control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOrderResults;
+        
+        /// <summary>
+        /// btnResolveAlarm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnResolveAlarm;
+        
+        /// <summary>
+        /// btnConfirmAlarm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmAlarm;
+        
+        /// <summary>
+        /// btnServiceAlarm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnServiceAlarm;
+        
+        /// <summary>
+        /// hfAlarmsSortAlarmType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfAlarmsSortAlarmType;
+        
+        /// <summary>
+        /// hfAlarmsSortLastService control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfAlarmsSortLastService;
+        
+        /// <summary>
+        /// hfAlarmsSortZone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfAlarmsSortZone;
+        
+        /// <summary>
+        /// hfAlarmsSortFloor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfAlarmsSortFloor;
+        
+        /// <summary>
+        /// hfAlarmsSortRoom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfAlarmsSortRoom;
+        
+        /// <summary>
+        /// hfAlarmsSortAlarmStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfAlarmsSortAlarmStatus;
+        
+        /// <summary>
+        /// hfMessagesSortMessageTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfMessagesSortMessageTime;
+        
+        /// <summary>
+        /// hfSortColumnChosen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfSortColumnChosen;
+        
+        /// <summary>
+        /// hfFilterAlarmTypeChosen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFilterAlarmTypeChosen;
+        
+        /// <summary>
+        /// hfFilterAlarmStatusChosen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFilterAlarmStatusChosen;
+        
+        /// <summary>
+        /// hfResolvedAlarmID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfResolvedAlarmID;
+        
+        /// <summary>
+        /// hfResolvedAlarmType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfResolvedAlarmType;
+        
+        /// <summary>
+        /// hfConfirmedAlarmID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfConfirmedAlarmID;
+        
+        /// <summary>
+        /// hfConfirmedAlarmType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfConfirmedAlarmType;
+        
+        /// <summary>
+        /// hfServicedAlarmID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfServicedAlarmID;
+        
+        /// <summary>
+        /// hfAlarmDetailsScrollPosition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfAlarmDetailsScrollPosition;
+        
+        /// <summary>
+        /// hfMessageCenterScrollPosition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfMessageCenterScrollPosition;
+        
+        /// <summary>
         /// summaryOK control.
         /// </summary>
         /// <remarks>
@@ -58,49 +265,13 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.Button btnViewAllAlarms;
         
         /// <summary>
-        /// cameraOk control.
+        /// hfMessageCenterJSON control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label cameraOk;
-        
-        /// <summary>
-        /// cameraService control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label cameraService;
-        
-        /// <summary>
-        /// cameraTriggered control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label cameraTriggered;
-        
-        /// <summary>
-        /// cameraAlert control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label cameraAlert;
-        
-        /// <summary>
-        /// Button2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.HiddenField hfMessageCenterJSON;
         
         /// <summary>
         /// carbonMonoxideOK control.
@@ -139,13 +310,13 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.Label carbonMonoxideAlert;
         
         /// <summary>
-        /// Button1 control.
+        /// btnViewAllCarbonMonoxide control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnViewAllCarbonMonoxide;
         
         /// <summary>
         /// fireOK control.
@@ -184,13 +355,13 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.Label fireAlert;
         
         /// <summary>
-        /// Button3 control.
+        /// btnViewAllFireAlarms control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button3;
+        protected global::System.Web.UI.WebControls.Button btnViewAllFireAlarms;
         
         /// <summary>
         /// lightedPathwayOK control.
@@ -229,13 +400,58 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.Label lightedPathwayAlert;
         
         /// <summary>
-        /// Button4 control.
+        /// btnViewAllLightedPathways control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button4;
+        protected global::System.Web.UI.WebControls.Button btnViewAllLightedPathways;
+        
+        /// <summary>
+        /// securityAlarmOK control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label securityAlarmOK;
+        
+        /// <summary>
+        /// securityAlarmService control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label securityAlarmService;
+        
+        /// <summary>
+        /// securityAlarmTriggered control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label securityAlarmTriggered;
+        
+        /// <summary>
+        /// securityAlarmAlert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label securityAlarmAlert;
+        
+        /// <summary>
+        /// btnViewAllSecurityAlarms control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnViewAllSecurityAlarms;
         
         /// <summary>
         /// securityDoorOK control.
@@ -274,13 +490,13 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.Label securityDoorAlert;
         
         /// <summary>
-        /// Button5 control.
+        /// btnViewAllSecurityDoors control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button5;
+        protected global::System.Web.UI.WebControls.Button btnViewAllSecurityDoors;
         
         /// <summary>
         /// sprinklerOK control.
@@ -319,264 +535,51 @@ namespace FireAlarmSystem {
         protected global::System.Web.UI.WebControls.Label sprinklerAlert;
         
         /// <summary>
-        /// Button6 control.
+        /// btnViewAllSprinklers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button6;
+        protected global::System.Web.UI.WebControls.Button btnViewAllSprinklers;
         
         /// <summary>
-        /// chkAlarmTypeVisible control.
+        /// lblResultsMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkAlarmTypeVisible;
+        protected global::System.Web.UI.WebControls.Label lblResultsMessage;
         
         /// <summary>
-        /// rdoAlarmTypeAlignLeft control.
+        /// hfUserSettingsJSON control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmTypeAlignLeft;
+        protected global::System.Web.UI.WebControls.HiddenField hfUserSettingsJSON;
         
         /// <summary>
-        /// rdoAlarmTypeAlignCenter control.
+        /// hfAlarmDetailsJSON control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmTypeAlignCenter;
+        protected global::System.Web.UI.WebControls.HiddenField hfAlarmDetailsJSON;
         
         /// <summary>
-        /// rdoAlarmTypeAlignRight control.
+        /// Master property.
         /// </summary>
         /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
+        /// Auto-generated property.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmTypeAlignRight;
-        
-        /// <summary>
-        /// chkLastServiceVisible control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkLastServiceVisible;
-        
-        /// <summary>
-        /// rdoLastServiceAlignLeft control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoLastServiceAlignLeft;
-        
-        /// <summary>
-        /// rdoLastServiceAlignCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoLastServiceAlignCenter;
-        
-        /// <summary>
-        /// rdoLastServiceAlignRight control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoLastServiceAlignRight;
-        
-        /// <summary>
-        /// chkZoneVisible control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkZoneVisible;
-        
-        /// <summary>
-        /// rdoZoneAlignLeft control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoZoneAlignLeft;
-        
-        /// <summary>
-        /// rdoZoneAlignCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoZoneAlignCenter;
-        
-        /// <summary>
-        /// rdoZoneAlignRight control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoZoneAlignRight;
-        
-        /// <summary>
-        /// chkFloorVisible control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkFloorVisible;
-        
-        /// <summary>
-        /// rdoFloorAlignLeft control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoFloorAlignLeft;
-        
-        /// <summary>
-        /// rdoFloorAlignCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoFloorAlignCenter;
-        
-        /// <summary>
-        /// rdoFloorAlignRight control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoFloorAlignRight;
-        
-        /// <summary>
-        /// chkRoomVisible control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkRoomVisible;
-        
-        /// <summary>
-        /// rdoRoomAlignLeft control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoRoomAlignLeft;
-        
-        /// <summary>
-        /// rdoRoomAlignCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoRoomAlignCenter;
-        
-        /// <summary>
-        /// rdoRoomAlignRight control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoRoomAlignRight;
-        
-        /// <summary>
-        /// chkAlarmStatusVisible control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkAlarmStatusVisible;
-        
-        /// <summary>
-        /// rdoAlarmStatusAlignLeft control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmStatusAlignLeft;
-        
-        /// <summary>
-        /// rdoAlarmStatusAlignCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmStatusAlignCenter;
-        
-        /// <summary>
-        /// rdoAlarmStatusAlignRight control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmStatusAlignRight;
-        
-        /// <summary>
-        /// chkAlarmDescriptionVisible control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkAlarmDescriptionVisible;
-        
-        /// <summary>
-        /// rdoAlarmDescriptionAlignLeft control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmDescriptionAlignLeft;
-        
-        /// <summary>
-        /// rdoAlarmDescriptionAlignCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmDescriptionAlignCenter;
-        
-        /// <summary>
-        /// rdoAlarmDescriptionAlignRight control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoAlarmDescriptionAlignRight;
+        public new FireAlarmSystem.SiteMaster Master {
+            get {
+                return ((FireAlarmSystem.SiteMaster)(base.Master));
+            }
+        }
     }
 }
